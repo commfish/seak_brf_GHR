@@ -64,7 +64,7 @@ Type objective_function<Type>::operator() ()
   for(int a=0; a<A; a++){
     // switch (slx_type) {
     // case 0: // logistic selectivity
-        saC(a) = logitSelectivity(a+1, mu, upsilon);
+        saC(a) = logitSelectivity(a, mu, upsilon);
       // break;
     // case 1: // double normal
       //   

@@ -11,7 +11,7 @@ library(shiny)
 library(tidyverse)
 
 # data ----
-read.csv(here::here("data/select.csv")) -> slx
+read.csv(here::here("output/select.csv")) -> slx
 
 theme_set(theme_light() +
               theme(

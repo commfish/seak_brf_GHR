@@ -267,7 +267,7 @@ Na <- model$report()$Na
 data.frame(saf = saC,
            M = M,
            F = F) %>%
-  write_csv(here::here("data/select.csv"))
+  write_csv(here::here("output/select.csv"))
 
 tibble(age = 0:plus_group) %>% 
   mutate(length = Linf * (1 - exp(-kappa * (age - t0))),

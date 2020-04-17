@@ -121,7 +121,7 @@ shinyServer(function(input, output) {
         Na = Ua = 1781 * input$density * input$ratio
         M = input$M
         F = input$Fc
-        ww = input$wt + input$wt_se
+        
         # maturity at age from Kodiak study - may not apply...
         mat_int = -7.521637
         mat_slope = 0.717806
@@ -158,7 +158,6 @@ shinyServer(function(input, output) {
                    length = Linf * (1 - exp(-kappa * (age - t0))),
                    weight = exp(lw_int + lw_slope * log(length)),
                    mature = exp(mat_int + mat_slope * age) / (1 + exp(mat_int + mat_slope * age)),
-                   weight = ifelse(weight>ww, ww, weight), 
                    unfished = Ua * weight * mature * 0.001 * RLS,
                    fished = Na * weight * mature * 0.001 * RLS,
                    Ca = round(Ca * weight * 0.001),

@@ -223,14 +223,14 @@ map = list()
 # parameter bounds
 
 L <- c(
-  logM = log(.04),
+       logM = log(.04),
        logF = log(.02), 
-       logmu = log(2), 
+       logmu = log(5), 
        logupsilon = log(.07), 
        logsigR = log(0.0001))
 
 U <- c(
-  logM = log(.4),
+       logM = log(.4),
        logF = log(.4),
        logmu = log(15), 
        logupsilon = log(5), 
@@ -289,7 +289,7 @@ report %>%
   geom_line() +
   scale_color_viridis_d(name = "", end = 0.75) +
   theme(legend.position = c(0.8, 0.2)) + 
-  geom_vline(xintercept = c(11.08, 10.1)) + 
+  # geom_vline(xintercept = c(11.08, 10.1)) + 
   geom_hline(yintercept = 0.5, lty=3)
 
 report %>% 
@@ -307,6 +307,7 @@ report %>%
   summarise(spr = sum(fished) / sum(unfished))
 
 
+# ignore all this below
 # exploring shape of input and output
 
 data.frame(M = seq(0.05, 0.3, by = 0.01)) %>% 

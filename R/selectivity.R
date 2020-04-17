@@ -107,6 +107,11 @@ dat %>%
   geom_line(aes(y = fit)) +
   expand_limits(y = 0)
 
+# output ----------
+data.frame(param = c("Linf", "Linf_se", "kappa", "kappa_se", "t0", "t0_se"),
+           value = c(Linf, Linf_se, kappa, kappa_se, t0, t0_se)) %>% 
+  write_csv(here::here("output/vonb.csv"))
+
 # sex ratio -----
 # compile("ratio.cpp")
 dyn.load(dynlib("ratio"))
@@ -164,15 +169,13 @@ brf %>%
   geom_histogram(bins = 100)
 
 # max age-based estimate of M
-4.899 * 51 ^-0.916
-4.899 * 45 ^-0.916
-4.899 * 40 ^-0.916
-4.899 * 35 ^-0.916
+
+4.899 * seq(35,50,5) ^-0.916
 
 #von B parameter estimates of M
 4.118 * kappa^ 0.73 * Linf^-0.33
 
-# looks like M is likely to range somewhere between 0.13 & 0.22
+# Estimates of M range between 0.13 & 0.22
 # that is higher than the 0.123 that has been used for AK previously
 
 # clean data for selectivity ----
@@ -198,7 +201,7 @@ dat %>%
 # Selectivity model ----
 setwd(here::here("tmb"))
 
-compile("select.cpp")
+# compile("select.cpp")
 dyn.load(dynlib("select"))
 
 data = list(ages = select_dat$age,
@@ -208,24 +211,26 @@ data = list(ages = select_dat$age,
             mu_F = 0.1,
             sd_F = 0.05)
 
-params = list(logM = log(0.15),	
+params = list(logM = log(0.123),	
               logF = log(0.10),
               logmu = log(8),		    
               logupsilon = log(1.5),
               logsigR = 0.02)
 
+# map = list(logM = factor(NA))
 map = list()
-
 
 # parameter bounds
 
-L <- c(logM = log(.04), 
+L <- c(
+  logM = log(.04),
        logF = log(.02), 
        logmu = log(2), 
        logupsilon = log(.07), 
        logsigR = log(0.0001))
 
-U <- c(logM = log(.4), 
+U <- c(
+  logM = log(.4),
        logF = log(.4),
        logmu = log(15), 
        logupsilon = log(5), 
@@ -283,7 +288,9 @@ report %>%
   ggplot(aes(age, value, color = measure)) + 
   geom_line() +
   scale_color_viridis_d(name = "", end = 0.75) +
-  theme(legend.position = c(0.8, 0.2))
+  theme(legend.position = c(0.8, 0.2)) + 
+  geom_vline(xintercept = c(11.08, 10.1)) + 
+  geom_hline(yintercept = 0.5, lty=3)
 
 report %>% 
   ggplot(aes(age, propC)) + 
